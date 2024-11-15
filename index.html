@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Website</title>
+    <title>Password Protected Page</title>
+    <script>
+        // Function to check the password
+        function checkPassword() {
+            const password = document.getElementById("password").value;
+            const correctPassword = "starwars"; // Replace with your password
+            const expirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+            if (password === correctPassword) {
+                // Save a cookie to remember the password for 24 hours
+                document.cookie = `authenticated=true; max-age=${expirationTime}`;
+                window.location.href = "protected.html"; // Redirect to the protected page
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+
+        // Check if the user is already authenticated
+        window.onload = function() {
+            const cookies = document.cookie.split("; ");
+            for (let cookie of cookies) {
+                if (cookie === "authenticated=true") {
+                    window.location.href = "protected.html";
+                    return;
+                }
+            }
+        };
+    </script>
 </head>
 <body>
-    <h1>Archive</h1>
-    <p></p>
-    <img src="image.jpg" alt="Sample Image">
+    <h1>Please Enter Password</h1>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkPassword()">Submit</button>
 </body>
 </html>
